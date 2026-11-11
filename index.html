@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Charlotte Cleaning — Client Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0f1b2e;
+      --navy-mid: #1a2b4c;
+      --gold: #d4af37;
+      --gold-soft: #f7e7b4;
+      --ink: #eaf1ff;
+      --muted: #9aa8c3;
+      --line: rgba(255, 255, 255, 0.08);
+      --canvas: #07111f;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      min-height: 100dvh;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 480px at 12% -10%, rgba(212, 175, 55, 0.16), transparent 55%),
+        radial-gradient(700px 420px at 100% 0%, rgba(78, 94, 130, 0.35), transparent 50%),
+        var(--canvas);
+    }
+
+    .shell {
+      min-height: 100dvh;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+    }
+
+    aside {
+      padding: 28px 22px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      background: rgba(7, 17, 31, 0.55);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .eyebrow {
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold);
+    }
+    h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+    .lede {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .group { display: flex; flex-direction: column; gap: 8px; }
+    .group h2 {
+      margin: 0 0 4px;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    button.screen {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--ink);
+      text-align: left;
+      border-radius: 14px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font: inherit;
+      transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    }
+    button.screen:hover { border-color: rgba(212, 175, 55, 0.45); }
+    button.screen.active {
+      background: linear-gradient(135deg, rgba(26, 43, 76, 0.95), rgba(15, 27, 46, 0.95));
+      border-color: rgba(212, 175, 55, 0.7);
+    }
+    button.screen strong { font-size: 14px; font-weight: 600; }
+    button.screen span { font-size: 12px; color: var(--muted); }
+
+    .footnote {
+      margin-top: auto;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .footnote a { color: var(--gold-soft); }
+
+    main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 20px 36px;
+    }
+
+    .stage { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+
+    .phone {
+      width: min(390px, 100%);
+      height: min(844px, calc(100dvh - 96px));
+      background: #f8f9ff;
+      border-radius: 28px;
+      padding: 0;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 8px #161b22,
+        0 0 0 9px rgba(255, 255, 255, 0.14),
+        0 28px 70px rgba(0, 0, 0, 0.45);
+    }
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+      background: #f8f9ff;
+    }
+
+    .caption {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .caption b { color: var(--ink); font-weight: 600; }
+
+    @media (max-width: 900px) {
+      .shell { grid-template-columns: 1fr; }
+      aside { border-right: 0; border-bottom: 1px solid var(--line); gap: 14px; }
+      .footnote { display: none; }
+      .lists {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+      }
+      .group { min-width: 240px; }
+      .phone { height: min(760px, 78dvh); }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand">
+        <div class="eyebrow">Client walkthrough</div>
+        <h1>Charlotte Cleaning</h1>
+        <p class="lede">Tap a screen, or use the in-app tabs. Customer booking and the admin desk are both in this prototype.</p>
+      </div>
+      <div class="lists">
+        <div class="group" id="customer"></div>
+        <div class="group" id="admin"></div>
+      </div>
+      <p class="footnote">Flows are wired from the design screens: Home, Bookings, Book, Profile, plus Admin agenda, requests, and client notes. <a id="open-direct" href="/screens/home.html" target="_blank" rel="noopener">Open this screen full page</a>.</p>
+    </aside>
+    <main>
+      <div class="stage">
+        <div class="phone">
+          <iframe id="app" title="Charlotte Cleaning prototype" src="/screens/home.html"></iframe>
+        </div>
+        <div class="caption" id="caption">Showing <b>Customer home</b></div>
+      </div>
+    </main>
+  </div>
+  <script>
+    var SCREENS = [
+      { key: "home", group: "customer", title: "Customer home", note: "Services, greeting, book CTA", src: "/screens/home.html" },
+      { key: "bookings", group: "customer", title: "My bookings", note: "Upcoming and past visits", src: "/screens/bookings.html" },
+      { key: "new-clean", group: "customer", title: "Book a clean", note: "Scheduling wizard", src: "/screens/book.html" },
+      { key: "profile", group: "customer", title: "Profile", note: "Account and preferences", src: "/screens/profile.html" },
+      { key: "schedule-agenda", group: "admin", title: "Daily agenda", note: "Today's crew schedule", src: "/screens/agenda.html" },
+      { key: "requests-queue", group: "admin", title: "Requests", note: "Incoming job queue", src: "/screens/requests.html" },
+      { key: "clients-directory", group: "admin", title: "Client notes", note: "Directory and visit notes", src: "/screens/clients.html" }
+    ];
+
+    var frame = document.getElementById("app");
+    var caption = document.getElementById("caption");
+    var direct = document.getElementById("open-direct");
+    var buttons = {};
+
+    function renderGroup(id, label) {
+      var root = document.getElementById(id);
+      root.innerHTML = "<h2>" + label + "</h2>";
+      SCREENS.filter(function (screen) { return screen.group === id; }).forEach(function (screen) {
+        var button = document.createElement("button");
+        button.className = "screen";
+        button.type = "button";
+        button.innerHTML = "<strong>" + screen.title + "</strong><span>" + screen.note + "</span>";
+        button.addEventListener("click", function () { show(screen.key); });
+        root.appendChild(button);
+        buttons[screen.key] = button;
+      });
+    }
+
+    function show(key, fromFrame) {
+      var screen = SCREENS.filter(function (item) { return item.key === key; })[0];
+      if (!screen) return;
+      Object.keys(buttons).forEach(function (name) {
+        buttons[name].classList.toggle("active", name === key);
+      });
+      caption.innerHTML = "Showing <b>" + screen.title + "</b>";
+      direct.href = screen.src;
+      direct.textContent = "Open " + screen.title.toLowerCase() + " full page";
+      if (!fromFrame && frame.getAttribute("src") !== screen.src) frame.src = screen.src;
+      if (location.hash !== "#" + key) history.replaceState(null, "", "#" + key);
+    }
+
+    renderGroup("customer", "Customer");
+    renderGroup("admin", "Admin");
+
+    var start = (location.hash || "#home").slice(1);
+    show(SCREENS.some(function (screen) { return screen.key === start; }) ? start : "home");
+
+    window.addEventListener("message", function (event) {
+      if (!event.data || event.data.type !== "ccs-nav") return;
+      show(event.data.path, true);
+    });
+  </script>
+</body>
+</html>
